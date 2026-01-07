@@ -10,6 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [bio, setBio] = useState('');
   const [isDataSubmitted, setIsDataSubmitted] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   const { login } = useContext(AuthContext);
 
@@ -24,77 +25,135 @@ const Login = () => {
   }
 
   return (
-    <div className='min-h-screen bg-cover bg-center flex items-center justify-center gap-8 sm:justify-evenly max-sm:flex-col backdrop-blur-2xl'>
-      {/* Left */}
-      <img src={assets.talk_live_logo} alt="Talk Live Logo" className='w-[min(30vw, 250px)]' />
+    <div className="min-h-screen bg-cover bg-center flex flex-col-reverse sm:flex-row items-center justify-center gap-10 sm:justify-evenly px-4 sm:px-16 py-12 backdrop-blur-lg">
 
-      {/* Right */}
-      <form onSubmit={handleSubmit} className='border-2 bg-white/8 text-white border-gray-500 p-6 flex flex-col gap-6 rounded-lg shadow-lg'>
-        <h2 className='font-medium text-2xl flex justify-between items-center'>{currentState}
-          {isDataSubmitted && (<img onClick={() => setIsDataSubmitted(false)} src={assets.arrow_icon} alt="" className='w-5 cursor-pointer' />)}
+      {/* Left - Logo */}
+      <img
+        src={assets.talk_live_logo}
+        alt="Talk Live Logo"
+        className="w-[min(40vw,300px)] max-sm:mb-6"
+      />
 
+      {/* Right - Form */}
+      <form
+        onSubmit={handleSubmit}
+        className="w-full sm:w-[400px] border border-gray-500 bg-white/10 backdrop-blur-md p-8 flex flex-col gap-6 rounded-xl shadow-2xl text-white"
+      >
+        <h2 className="font-semibold text-2xl flex justify-between items-center">
+          {currentState}
+          {isDataSubmitted && (
+            <img
+              onClick={() => setIsDataSubmitted(false)}
+              src={assets.arrow_icon}
+              alt="Back"
+              className="w-6 h-6 cursor-pointer hover:scale-110 transition-transform"
+            />
+          )}
         </h2>
+
+        {/* Full Name - Sign Up */}
         {currentState === "Sign up" && !isDataSubmitted && (
           <input
             type="text"
-            className='p-2 border border-gray-500 rounded-md focus:outline-none'
-            placeholder='Full Name'
-            onChange={(e) => setName(e.target.value)}
-            value={name}
+            placeholder="Full Name"
             required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="p-3 rounded-lg border border-gray-400 bg-white/20 placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-violet-400 transition"
           />
         )}
 
+        {/* Email & Password */}
         {!isDataSubmitted && (
           <>
             <input
               type="email"
-              placeholder='email address'
+              placeholder="Email Address"
               required
-              className='p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-white-500'
-              onChange={(e) => setEmail(e.target.value)}
               value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="p-3 rounded-lg border border-gray-400 bg-white/20 placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-violet-400 transition"
             />
-
             <input
               type="password"
-              placeholder='enter password'
+              placeholder="Enter Password"
               required
-              className='p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-white-500'
-              onChange={(e) => setPassword(e.target.value)}
               value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="p-3 rounded-lg border border-gray-400 bg-white/20 placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-violet-400 transition"
             />
           </>
         )}
 
+        {/* Bio Textarea */}
         {currentState === "Sign up" && isDataSubmitted && (
           <textarea
             rows={4}
-            className='p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-white-500' placeholder='provide a short bio'
+            placeholder="Provide a short bio"
             required
+            value={bio}
             onChange={(e) => setBio(e.target.value)}
-            value={bio}>Enter Bio</textarea>
+            className="p-3 rounded-lg border border-gray-400 bg-white/20 placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-violet-400 transition"
+          ></textarea>
         )}
 
-        <button type='submit' className='py-3 bg-linear-to-r from-purple-400 to-voilet-600 text-white rounded-md cursor-pointer'>
-          {currentState === "Sign up" ? "Create Account" : "Login to your account"}
+        {/* Terms Checkbox */}
+        <label className="flex items-center gap-2 text-sm text-gray-300">
+          <input
+            type="checkbox"
+            className="accent-violet-500"
+            checked={termsAccepted}
+            onChange={(e) => setTermsAccepted(e.target.checked)}
+          />
+          Agree to the terms and privacy policy
+        </label>
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          disabled={!termsAccepted} // Disabled until checkbox is checked
+          className={`py-3 rounded-lg text-white font-semibold shadow-lg transition-transform ${termsAccepted
+              ? "bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-600 hover:scale-105"
+              : "bg-gray-600 cursor-not-allowed"
+            }`}
+        >
+          {currentState === "Sign up" ? "Create Account" : "Login to Your Account"}
         </button>
 
-        <div className='flex items-center gap-2 text-sm text-gray-300'>
-          <input type="checkbox" />
-          <p>Agree to the terms and privacy policy</p>
-        </div>
-
-        <div className='flex flex-col gap-2'>
+        {/* Switch Form */}
+        <div className="flex flex-col gap-2 text-sm text-gray-200">
           {currentState === "Sign up" ? (
-            <p className='text-sm text-gray-200'>Already have an account? <span className='font-medium text-violet-500 cursor-pointer' onClick={() => { setCurrentState("Login"); setIsDataSubmitted(false) }}>Login here</span></p>
+            <p>
+              Already have an account?{" "}
+              <span
+                className="font-medium text-violet-500 cursor-pointer hover:underline"
+                onClick={() => {
+                  setCurrentState("Login");
+                  setIsDataSubmitted(false);
+                  setTermsAccepted(false); // Reset checkbox
+                }}
+              >
+                Login here
+              </span>
+            </p>
           ) : (
-            <p className='text-sm text-gray-200'>Create an account <span className='font-medium text-violet-500 cursor-pointer' onClick={() => { setCurrentState("Sign up"); }}>Click here</span></p>
+            <p>
+              Create an account{" "}
+              <span
+                className="font-medium text-violet-500 cursor-pointer hover:underline"
+                onClick={() => {
+                  setCurrentState("Sign up");
+                  setTermsAccepted(false); // Reset checkbox
+                }}
+              >
+                Click here
+              </span>
+            </p>
           )}
         </div>
-
       </form>
     </div>
+
   )
 }
 
