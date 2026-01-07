@@ -96,14 +96,14 @@ const ChatContainer = () => {
                   <img
                     src={message.image}
                     alt=""
-                    className="max-w-[230px] rounded-lg border border-gray-600"
+                    className="max-w-57.5 rounded-lg border border-gray-600"
                   />
                   <span className="text-[10px] text-gray-400 mt-1 text-right">
                     {formateMessageTime(message.createdAt)}
                   </span>
                 </div>
               ) : (
-                <div className={`px-3 py-2 max-w-[240px] text-sm text-white rounded-lg flex flex-col ${isMe
+                <div className={`px-3 py-2 max-w-60 text-sm text-white rounded-lg flex flex-col ${isMe
                   ? "bg-violet-500/40 rounded-br-none"
                   : "bg-gray-700/40 rounded-bl-none"
                   }`}
