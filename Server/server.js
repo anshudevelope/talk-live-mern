@@ -19,7 +19,7 @@ export const io = new Server(server, {
 })
 
 export const userSocketMap = {};
- 
+
 // Socket.io connection handler
 io.on("connection", (socket) => {
     const userId = socket.handshake.query.userId;
@@ -49,8 +49,12 @@ app.use('/api/messages', messageRouter);
 // connect Database
 await connectDB();
 
-const port = process.env.PORT || 5000;
+if (process.env.NODE_ENV !== 'production') {
+    const port = process.env.PORT || 5000;
+    server.listen(port, () => {
+        console.log(`Server is running on port: ${port}`);
+    });
+}
 
-server.listen(port, () => {
-    console.log(`Server is running on port: ${port}`);
-});
+// Export the server for veasal deployment
+export default server;
