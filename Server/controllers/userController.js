@@ -1,6 +1,7 @@
 import cloudinary from "../lib/cloudinary.js";
 import { generateToken } from "../lib/utils.js";
 import User from "../model/user.js";
+import bcrypt from "bcryptjs";
 
 // Signup new user
 export const signUp = async (req, res) => {
@@ -19,7 +20,7 @@ export const signUp = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(password, salt);
 
-        const newuser = new User.create({
+        const newuser = await User.create({
             fullName,
             email,
             password: hashPassword,
@@ -72,7 +73,7 @@ export const checkAuth = async (req, res) => {
 export const updateProfile = async (req, res) => {
     try {
         const { profilePic, fullName, bio } = req.body;
-        const userId = req.body.user._id;
+        const userId = req.user._id;
         let updatedUser;
 
         if (!profilePic) {

@@ -19,3 +19,25 @@ body {
   -ms-overflow-style: none;  /* IE & Edge */
   scrollbar-width: none;     /* Firefox */
 }
+
+.media-scroll {
+  max-height: 240px;        /* around 2 rows */
+  overflow-y: auto;
+  scrollbar-width: none;    /* Firefox */
+}
+
+.media-scroll::-webkit-scrollbar {
+  display: none;            /* Chrome, Safari */
+}
+
+/* Hide scrollbar for all modern browsers */
+.media-scroll,
+div.overflow-y-scroll {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE & Edge */
+}
+
+.media-scroll::-webkit-scrollbar,
+div.overflow-y-scroll::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}

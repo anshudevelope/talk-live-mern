@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import assets from '../chat-app-assets/assets'
+import { AuthContext } from '../context/AuthContext';
 
 const Login = () => {
 
@@ -10,12 +11,16 @@ const Login = () => {
   const [bio, setBio] = useState('');
   const [isDataSubmitted, setIsDataSubmitted] = useState(false);
 
+  const { login } = useContext(AuthContext);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (currentState === "Sign up" && !isDataSubmitted) {
       setIsDataSubmitted(true);
       return;
     }
+
+    login(currentState === "Sign up" ? "signup" : "login", { fullName: name, email, password, bio });
   }
 
   return (
