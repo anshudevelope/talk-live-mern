@@ -129,12 +129,9 @@ Talk-Live/
 
 ---
 
-## Screenshots & Demo
+## Live Demo Link
 
-* Live Demo: 
-* Real-time Chat Interface
-* Media Upload Preview
-* Authentication Flow
+* Talk Live - https://talk-live-mern-yy5p.vercel.app/
 
 ---
 
